@@ -1,11 +1,35 @@
-<h2>Login</h2>
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
 
-<form method="post">
-  {% csrf_token %}
-  <input name="username" placeholder="Username" required><br>
-  <input name="password" type="password" placeholder="Password" required><br>
-  <button type="submit">Login</button>
-</form>
+{% block title %} Login {% endblock %}
 
-{% if error %}<p style="color:red">{{ error }}</p>{% endif %}
-<a href="/signup/">Create account</a>
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="text-center mb-3">Welcome Back</h3>
+        <p class="text-center text-muted">
+          Login to coontinue to SeimLite
+        </p>
+        <form action="" method="POST">
+          {% csrf_token %}
+          {{form|crispy}}
+
+          <div class="d-grid mt-3">
+            <button type="submit" class="btn btn-primary">
+              Login
+            </button>
+          </div>
+        </form>
+        <div class="text-center mt-3">
+          <small>
+            Don't have an account?
+            <a href="{% url 'signup %'}">Sign up</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
