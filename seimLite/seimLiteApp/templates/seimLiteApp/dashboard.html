@@ -1,4 +1,67 @@
-<h2>Welcome {{ request.user.username }}</h2>
+{% extends "base.html" %}
 
-<p>You are logged in.</p>
-<a href="/logout/">Logout</a>
+{% block title %}Seim Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <h2>Seim Dashboard</h2>
+    <p class="text-muted">
+        Monitor system status and logs
+    </p>
+</div>
+
+<div class="row g-4">
+
+    <!-- Seim Status -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-success">
+            <div class="card-body">
+                <h5 class="card-title">System Status</h5>
+                <p class="text-success fw-semibold mb-1">● Running</p>
+                <small class="text-muted">Last checked: just now</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs -->
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Logs</h5>
+                <p class="text-muted">
+                    View recent system events and errors
+                </p>
+                <a href="#" class="btn btn-outline-primary btn-sm">
+                    View Logs
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Actions</h5>
+                <p class="text-muted">
+                    Control Seim processes
+                </p>
+                <button class="btn btn-outline-danger btn-sm">
+                    Restart Seim
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr class="my-4">
+
+<div>
+    <small class="text-muted">
+        Logged in as <strong>{{ request.user.username }}</strong>
+    </small>
+</div>
+
+{% endblock %}

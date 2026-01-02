@@ -2,12 +2,9 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 # Create your views here.
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
 
 def login_view(request):
     if request.method == "POST":
@@ -23,19 +20,18 @@ def login_view(request):
         "form": form
     })
 
-
 def signup_view(request):
-    if request.method=='POST':
-        username=request.POST['username']
-        password=request.POST['password']
-        
-        if User.objects.filter(username=username).exists():
-            return render(request,'seimLiteApp/signup.html',{'error':'username alresy exists'})
-        user=User.objects.create_user(username=username,password=password)
-        login(request,user)
-        return redirect('dashboard')
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("dashboard")
+    else:
+        form = UserCreationForm()
 
-    return render(request,'seimLiteApp/signup.html')
+    return render(request, "seimLiteApp/signup.html", {"form": form})
+
 
 def logout_view(request):
     logout(request)
