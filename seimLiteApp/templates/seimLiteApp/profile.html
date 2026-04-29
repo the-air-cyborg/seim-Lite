@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">My Account</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    {% if profile.profile_pic %}
+                        <img src="{{ profile.profile_pic.url }}"
+                             class="img-thumbnail mb-3"
+                             width="180">
+                    {% else %}
+                        <div class="text-muted">No Profile Picture</div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-8">
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email|default:"Not set" }}</p>
+                    <p><strong>Role:</strong> {{ profile.role|default:"User" }}</p>
+                    <p><strong>Phone:</strong> {{ profile.phone|default:"Not provided" }}</p>
+                    <p><strong>Address:</strong> {{ profile.address|default:"Not provided" }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
