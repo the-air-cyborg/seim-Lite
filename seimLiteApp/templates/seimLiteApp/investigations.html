@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Log Investigation{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <!-- HEADER -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h2>Log Investigation</h2>
+      <p class="text-muted mb-0">SOC Triage Panel</p>
+    </div>
+
+    <a href="{% url 'logs' %}" class="btn btn-outline-secondary btn-sm">
+      ← Back to Logs
+    </a>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- LEFT: LOG DETAILS -->
+    <div class="col-md-8">
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+          <h5 class="mb-3">Incident Details</h5>
+
+          <table class="table table-borderless">
+            <tr>
+              <th>Timestamp</th>
+              <td>{{ log.timestamp }}</td>
+            </tr>
+
+            <tr>
+              <th>Level</th>
+              <td>
+                {% if log.level == "CRITICAL" %}
+                  <span class="badge bg-danger">CRITICAL</span>
+                {% elif log.level == "WARNING" %}
+                  <span class="badge bg-warning text-dark">WARNING</span>
+                {% else %}
+                  <span class="badge bg-info">INFO</span>
+                {% endif %}
+              </td>
+            </tr>
+
+            <tr>
+              <th>Source</th>
+              <td>{{ log.source }}</td>
+            </tr>
+
+            <tr>
+              <th>Message</th>
+              <td class="text-wrap">{{ log.message }}</td>
+            </tr>
+
+            <tr>
+              <th>Status</th>
+              <td>
+                {% if log.status == "BLOCKED" %}
+                  <span class="badge bg-danger">BLOCKED</span>
+                {% elif log.status == "INVESTIGATE" %}
+                  <span class="badge bg-warning text-dark">INVESTIGATE</span>
+                {% else %}
+                  <span class="badge bg-success">OK</span>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: ACTION PANEL -->
+    <div class="col-md-4">
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+
+          <h5 class="mb-3">SOC Actions</h5>
+
+          <form method="post">
+            {% csrf_token %}
+
+            <label class="form-label">Update Status</label>
+            <select class="form-select mb-3" name="status">
+              <option value="OK">OK</option>
+              <option value="INVESTIGATE">Investigate</option>
+              <option value="BLOCKED">Blocked</option>
+            </select>
+
+            <button class="btn btn-primary w-100 mb-2">
+              Update Log
+            </button>
+          </form>
+
+          <hr>
+
+          <button class="btn btn-outline-danger w-100 mb-2">
+            Escalate Incident
+          </button>
+
+          <button class="btn btn-outline-dark w-100">
+            Mark as False Positive
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

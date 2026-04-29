@@ -13,7 +13,7 @@
 
 <div class="row g-4">
 
-    <!-- Seim Status -->
+    <!-- System Status -->
     <div class="col-md-4">
         <div class="card shadow-sm border-success">
             <div class="card-body">
@@ -53,6 +53,46 @@
             </div>
         </div>
     </div>
+
+</div>
+
+<!-- PROJECT SECTION (SIEM CORE FEATURE) -->
+<hr class="my-4">
+
+<div class="mb-3">
+    <h4>Projects (Assets)</h4>
+    <p class="text-muted">
+        Click a project to investigate related logs
+    </p>
+</div>
+
+<div class="row g-3">
+
+    {% for project in projects %}
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    <a href="{% url 'project_detail' project.id %}" class="text-decoration-none">
+                        {{ project.title }}
+                    </a>
+                </h5>
+
+                <p class="text-muted">
+                    {{ project.description|truncatechars:90 }}
+                </p>
+
+                <small class="text-secondary">
+                    Logs: {{ project.log_set.count }}
+                </small>
+
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
 
 </div>
 

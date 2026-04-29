@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import Log,Profile,Project
 from .forms import UserRegistrationForm,ProfileRegistrationForm
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 
 def login_view(request):
     if request.method == "POST":
@@ -53,7 +54,11 @@ def logout_view(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "seimLiteApp/dashboard.html")
+    projects = Project.objects.all()
+
+    return render(request, "seimLiteApp/dashboard.html", {
+        "projects": projects
+    })
 
 
 @login_required
@@ -117,3 +122,22 @@ def settings_view(request):
 def alerts_view(request):
     return render(request,"seimLiteApp/alerts.html")
 
+from .models import Project, Log
+
+@login_required
+def project_detail(request, project_id):
+    project = Project.objects.get(id=project_id)
+    logs = Log.objects.filter(project=project).order_by("-timestamp")
+
+    return render(request, "seimLiteApp/project_detail.html", {
+        "project": project,
+        "logs": logs
+    })
+
+@login_required
+def investigate_log(request, log_id):
+    log = get_object_or_404(Log, id=log_id)
+
+    return render(request, "seimLiteApp/investigations.html", {
+        "log": log
+    })

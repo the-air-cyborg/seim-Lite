@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.shortcuts import render
 from .models import Project,Log,Profile
 from django.contrib.auth.decorators import login_required
 
